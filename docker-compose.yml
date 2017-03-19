@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  fs-server:
+    image: "causticlab/filesync:dev"
+    tty: true
+    stdin_open: true
+    labels:
+      io.rancher.container.create_agent: 'true'
+      io.rancher.container.agent.role: 'environment'
+      io.rancher.scheduler.affinity:host_label: rgon=primary
+    environment:
+      FILESYNC_MODE: 'server'
+      FILESYNC_PATH: '/share'
+#  fs-client:
+#    image: "causticlab/filesync:dev"
+#    tty: true
+#    stdin_open: true
+#    links:
+#      - fs-server:fs-server
+#    labels:
+#      io.rancher.scheduler.global: 'true'
+#      io.rancher.container.create_agent: 'true'
+#      io.rancher.container.agent.role: 'environment'
+#      io.rancher.scheduler.affinity:host_label_ne: rgon=primary
+#    environment:
+#      FILESYNC_MODE: 'client'
+#      FILESYNC_IP: 'fs-server'
+#      FILESYNC_PORT: '6776'
+#      FILESYNC_PATH: '/share'

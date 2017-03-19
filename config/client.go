@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	simplejson "github.com/bitly/go-simplejson"
-	"github.com/elgs/filesync/index"
+	"filesync/index"
+	vars "filesync/vars"
 	"hash/crc32"
 	"io"
 	"io/ioutil"
@@ -16,24 +17,18 @@ import (
 
 var monitorFilePart bool = false
 
-func StartClient(configFile string, done chan bool) {
-	b, err := ioutil.ReadFile(configFile)
-	if err != nil {
-		fmt.Println(configFile, " not found")
-		go func() {
-			done <- false
-		}()
-		return
-	}
-	json, _ := simplejson.NewJson(b)
-	ip := json.Get("ip").MustString("127.0.0.1")
-	port := json.Get("port").MustInt(6776)
-
-	monitors := json.Get("monitors").MustMap()
-
-	for k, v := range monitors {
+func StartClient(done chan bool) {
+	vars := vars.GetConfig();
+	fmt.Println("Starting Filesync client")
+	for k, v := range vars.Monitors {
 		monitored, _ := v.(string)
-		go startWork(ip, port, k, monitored, time.Minute)
+
+		if(!index.Exists(monitored)){
+			fmt.Println("Path does not exist: ", monitored)
+			continue
+		}
+
+		go startWork(vars.Ip, vars.Port, k, monitored, time.Minute)
 	}
 }
 

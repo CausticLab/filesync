@@ -329,7 +329,7 @@ func LikeSafe(path string) string {
 
 func InitIndex(monitored string, db *sql.DB) error {
 	var ret error = nil
-	exists := exists(SlashSuffix(monitored) + ".sync/index.db")
+	exists := Exists(SlashSuffix(monitored) + ".sync/index.db")
 	if !exists {
 		os.MkdirAll(SlashSuffix(monitored)+".sync/", (os.FileMode)(0755))
 		if monitorFilePart {
@@ -362,7 +362,7 @@ func InitIndex(monitored string, db *sql.DB) error {
 }
 
 // exists returns whether the given file or directory exists or not
-func exists(path string) bool {
+func Exists(path string) bool {
 	_, err := os.Stat(path)
 	if err == nil {
 		return true
@@ -407,7 +407,7 @@ func ProcessEvent(watcher *fsnotify.Watcher, monitored string) {
 				ProcessFileDelete(ev.Name, monitored)
 				//fmt.Println("Deleted: " + ev.Name)
 			} else if ev.IsRename() {
-				if exists(ev.Name) {
+				if Exists(ev.Name) {
 					if info.IsDir() {
 						WatchRecursively(watcher, ev.Name, monitored)
 						//fmt.Println("Created dir: " + ev.Name)

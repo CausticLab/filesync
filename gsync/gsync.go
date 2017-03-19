@@ -1,51 +1,27 @@
 package main
 
 import (
-	"fmt"
-	simplejson "github.com/bitly/go-simplejson"
-	"github.com/elgs/filesync/config"
-	"io/ioutil"
-	"os"
+	"log"
+	vars "filesync/vars"
+	"filesync/config"
 	"runtime"
 )
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
-	fmt.Println("CPUs: ", runtime.NumCPU())
-	input := args()
+	log.Println("CPUs: ", runtime.NumCPU())
 	done := make(chan bool)
-	if len(input) >= 1 {
-		start(input[0], done)
-	}
+		start(done)
 	<-done
 }
 
-func start(configFile string, done chan bool) {
-	b, err := ioutil.ReadFile(configFile)
-	if err != nil {
-		fmt.Println(configFile, " not found")
-		go func() {
-			done <- false
-		}()
-		return
-	}
-	json, _ := simplejson.NewJson(b)
-	mode := json.Get("mode").MustString("server")
-	if mode == "server" {
-		config.StartServer(configFile)
-	} else if mode == "client" {
-		config.StartClient(configFile, done)
-	}
-}
+func start(done chan bool) {
+	vars := vars.GetConfig();
+	log.Printf("Fileshare Config:\n%+v\n", vars)
 
-func args() []string {
-	ret := []string{}
-	if len(os.Args) <= 1 {
-		ret = append(ret, "gsync.json")
-	} else {
-		for i := 1; i < len(os.Args); i++ {
-			ret = append(ret, os.Args[i])
-		}
+	if vars.Mode == "server" {
+		config.StartServer()
+	} else if vars.Mode == "client" {
+		config.StartClient(done)
 	}
-	return ret
 }

@@ -4,3 +4,5 @@ pkg
 out
 .idea
 gsyncd.iml
+build
+.env
