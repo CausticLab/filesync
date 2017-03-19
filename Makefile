@@ -27,12 +27,13 @@ help:
 	@echo "make version - show app version"
 
 build: build-dir
-	CGO_ENABLED=1 GOOS=$(PLATFORM) GOARCH=$(ARCH) godep go build -ldflags "-X main.Version=$(VERSION) -X main.GitSHA=$(GITSHA)" -o build/$(PROJECT)-$(PLATFORM)-$(ARCH) ./gsync
+	CGO_ENABLED=1 GOOS=$(PLATFORM) GOARCH=$(ARCH) godep go build -ldflags "-X main.Version=$(VERSION) -X main.GitSHA=$(GITSHA)" -o build/$(PROJECT)-$(PLATFORM)-$(ARCH) -v
 
 deps:
 	go get github.com/tools/godep
 	go get github.com/mattn/go-sqlite3
 	go get github.com/bitly/go-simplejson
+	godep save
 
 release:
 	git tag `cat VERSION`
@@ -57,7 +58,7 @@ version:
 	@echo $(VERSION) $(GITSHA)
 
 ci-compile: build-dir
-	CGO_ENABLED=0 GOOS=$(PLATFORM) GOARCH=$(ARCH) go build -ldflags "-X main.Version=$(VERSION) -X main.GitSHA=$(GITSHA) -w -s" -a -o build/$(PROJECT)-$(PLATFORM)-$(ARCH)/$(PROJECT) ./gsync
+	CGO_ENABLED=0 GOOS=$(PLATFORM) GOARCH=$(ARCH) go build -ldflags "-X main.Version=$(VERSION) -X main.GitSHA=$(GITSHA) -w -s" -a -o build/$(PROJECT)-$(PLATFORM)-$(ARCH)/$(PROJECT)
 
 build-dir:
 	@rm -rf build && mkdir build

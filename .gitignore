@@ -6,3 +6,5 @@ out
 gsyncd.iml
 build
 .env
+/Godeps
+/vendor
