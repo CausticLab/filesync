@@ -12,6 +12,8 @@ services:
     environment:
       FILESYNC_MODE: 'server'
       FILESYNC_PATH: '/share'
+    volumes:
+      - ./demo/server:/share
   fs-client1:
     image: "causticlab/filesync:dev"
     tty: true
@@ -27,6 +29,8 @@ services:
       FILESYNC_MODE: 'client'
       FILESYNC_IP: 'fs-server'
       FILESYNC_PATH: '/share'
+    volumes:
+      - ./demo/client1:/share
   fs-client2:
     image: "causticlab/filesync:dev"
     tty: true
@@ -42,3 +46,5 @@ services:
       FILESYNC_MODE: 'client'
       FILESYNC_IP: 'fs-server'
       FILESYNC_PATH: '/share'
+    volumes:
+      - ./demo/client2:/share
