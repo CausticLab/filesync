@@ -3,9 +3,10 @@ package api
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"github.com/codegangsta/martini"
 	"github.com/codegangsta/martini-contrib/encoder"
-	"github.com/elgs/filesync/index"
+	"filesync/index"
 	"io"
 	"net/http"
 	"os"
@@ -37,7 +38,7 @@ func RunWeb(ip string, port int, monitors map[string]interface{}) {
 	route.Get("/dirs", func(enc encoder.Encoder, req *http.Request) (int, []byte) {
 		defer func() {
 			if err := recover(); err != nil {
-				fmt.Println(err)
+				log.Println(err)
 			}
 		}()
 		monitored := req.Header.Get("MONITORED")
@@ -114,5 +115,5 @@ func RunWeb(ip string, port int, monitors map[string]interface{}) {
 	})
 
 	m.Action(route.Handle)
-	fmt.Println(http.ListenAndServe(fmt.Sprint(ip, ":", port), m))
+	log.Println(http.ListenAndServe(fmt.Sprint(ip, ":", port), m))
 }

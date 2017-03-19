@@ -4,3 +4,8 @@ pkg
 out
 .idea
 gsyncd.iml
+build
+.env
+/Godeps
+/vendor
+/demo
