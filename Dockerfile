@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM busybox:ubuntu-14.04
 MAINTAINER CausticLab
 
 ENV FILESYNC_RELEASE v0.0.1

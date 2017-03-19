@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM busybox:ubuntu-14.04
 MAINTAINER CausticLab
 
 ADD build/filesync-linux-amd64 /usr/local/bin/filesync

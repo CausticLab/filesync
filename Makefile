@@ -30,6 +30,7 @@ build: build-dir
 	CGO_ENABLED=1 GOOS=$(PLATFORM) GOARCH=$(ARCH) godep go build -ldflags "-X main.Version=$(VERSION) -X main.GitSHA=$(GITSHA)" -o build/$(PROJECT)-$(PLATFORM)-$(ARCH) -v
 
 deps:
+	go get golang.org/x/sys/unix
 	go get github.com/tools/godep
 	go get github.com/mattn/go-sqlite3
 	go get github.com/bitly/go-simplejson
