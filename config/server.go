@@ -18,17 +18,23 @@ func StartServer() {
 		watcher, _ := fsnotify.NewWatcher()
 		monitored, _ := v.(string)
 		monitored = index.PathSafe(monitored)
+		targetPath := index.SlashSuffix(monitored)
+		dbPath := targetPath + ".sync/index.db"
 
 		if(!index.Exists(monitored)){
 			log.Println("Path does not exist, creating: ", monitored)
 
-      if os.MkdirAll(monitored, os.ModePerm) != nil {
-      	log.Fatal("Could not create directory: ", monitored)
-      	continue
-      }
+			if os.MkdirAll(monitored, os.ModePerm) != nil {
+				log.Fatal("Could not create directory: ", monitored)
+				continue
+			}
 		}
 
-		db, err := sql.Open("sqlite3", index.SlashSuffix(monitored)+".sync/index.db")
+		if(!index.Writable(targetPath)){
+			log.Fatal("Path is not writeable: ", targetPath)
+		}
+
+		db, err := sql.Open("sqlite3", dbPath)
 		if err != nil {
 			log.Fatal(err)
 		}

@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"golang.org/x/sys/unix"
 )
 
 type IndexedFile struct {
@@ -426,4 +427,8 @@ func ProcessEvent(watcher *fsnotify.Watcher, monitored string) {
 			go WatchRecursively(watcher, monitored, monitored)
 		}
 	}
+}
+
+func Writable(path string) bool {
+    return unix.Access(path, unix.W_OK) == nil
 }
