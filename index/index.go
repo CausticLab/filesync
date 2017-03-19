@@ -2,6 +2,7 @@ package index
 
 import (
 	"database/sql"
+	"log"
 	"fmt"
 	"github.com/howeyc/fsnotify"
 	"hash/crc32"
@@ -40,12 +41,12 @@ var monitorFilePart bool = false
 
 func ProcessFileDelete(thePath string, monitored string) {
 	if ignore(thePath, monitored) {
-		fmt.Println("Ignored: ", thePath)
+		//log.Println("Ignored: ", thePath)
 		return
 	}
 	defer func() {
 		if err := recover(); err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		}
 	}()
 	thePath = PathSafe(thePath)
@@ -83,16 +84,16 @@ func ProcessFileDelete(thePath string, monitored string) {
 
 func ProcessDirChange(thePath string, info os.FileInfo, monitored string) {
 	if ignore(thePath, monitored) {
-		fmt.Println("Ignored: ", thePath)
+		//log.Println("Ignored: ", thePath)
 		return
 	}
 	defer func() {
 		if err := recover(); err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		}
 	}()
 	if info == nil {
-		fmt.Println("Dir no longer exists: " + thePath)
+		log.Println("Dir no longer exists: " + thePath)
 		return
 	}
 	thePath = PathSafe(thePath)
@@ -109,16 +110,16 @@ func ProcessDirChange(thePath string, info os.FileInfo, monitored string) {
 
 func ProcessFileChange(thePath string, info os.FileInfo, monitored string) {
 	if ignore(thePath, monitored) {
-		fmt.Println("Ignored: ", thePath)
+		//log.Println("Ignored: ", thePath)
 		return
 	}
 	defer func() {
 		if err := recover(); err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		}
 	}()
 	if info == nil {
-		fmt.Println("File no longer exists: " + thePath)
+		log.Println("File no longer exists: " + thePath)
 		return
 	}
 	thePath = PathSafe(thePath)
@@ -239,7 +240,7 @@ func ProcessFileChange(thePath string, info os.FileInfo, monitored string) {
 
 func WatchRecursively(watcher *fsnotify.Watcher, root string, monitored string) error {
 	if ignore(root, monitored) {
-		fmt.Println("Ignored: ", root)
+		//log.Println("Ignored: ", root)
 		return nil
 	}
 
@@ -266,7 +267,7 @@ func WatchRecursively(watcher *fsnotify.Watcher, root string, monitored string) 
 			defer db.Close()
 			//fmt.Println(path)
 			if ignore(path, monitored) {
-				fmt.Println("Ignored: ", path)
+				//log.Println("Ignored: ", path)
 				return nil
 			}
 			var thePath string
@@ -303,7 +304,7 @@ func WatchRecursively(watcher *fsnotify.Watcher, root string, monitored string) 
 	// remove zombies
 	for k, v := range mapFiles {
 		if k != "/" && v.Status == "ready" {
-			fmt.Println("Zombie removed: ", v.FilePath)
+			log.Println("Zombie removed: ", v.FilePath)
 			ProcessFileDelete(monitored+k, monitored)
 		}
 	}
@@ -421,7 +422,7 @@ func ProcessEvent(watcher *fsnotify.Watcher, monitored string) {
 				}
 			}
 		case err := <-watcher.Error:
-			fmt.Println("error:", err)
+			log.Println("error: ", err)
 		case <-time.After(time.Minute):
 			//fmt.Println("I'm idle, so I decided to do a patrol")
 			go WatchRecursively(watcher, monitored, monitored)

@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	simplejson "github.com/bitly/go-simplejson"
 	"filesync/index"
 	vars "filesync/vars"
@@ -19,12 +20,12 @@ var monitorFilePart bool = false
 
 func StartClient(done chan bool) {
 	vars := vars.GetConfig();
-	fmt.Println("Starting Filesync client")
+	log.Println("Starting Filesync client")
 	for k, v := range vars.Monitors {
 		monitored, _ := v.(string)
 
 		if(!index.Exists(monitored)){
-			fmt.Println("Path does not exist: ", monitored)
+			log.Println("Path does not exist: ", monitored)
 			continue
 		}
 
@@ -47,7 +48,7 @@ func startWork(ip string, port int, key string, monitored string, maxInterval ti
 				if dirStatus == "deleted" {
 					err := os.RemoveAll(dir)
 					if err != nil {
-						fmt.Println(err)
+						log.Println(err)
 					}
 					continue
 				}
@@ -55,7 +56,7 @@ func startWork(ip string, port int, key string, monitored string, maxInterval ti
 				dirMode, _ := mode.Int64()
 				err := os.MkdirAll(dir, os.FileMode(dirMode))
 				if err != nil {
-					fmt.Println(err)
+					log.Println(err)
 				}
 			}
 
@@ -74,7 +75,7 @@ func startWork(ip string, port int, key string, monitored string, maxInterval ti
 				if fileStatus == "deleted" {
 					err := os.RemoveAll(f)
 					if err != nil {
-						fmt.Println(err)
+						log.Println(err)
 					}
 					continue
 				}
@@ -145,7 +146,7 @@ func startWork(ip string, port int, key string, monitored string, maxInterval ti
 func downloadFromServer(ip string, port int, key string, filePath string, start int64, length int64, file *os.File) int64 {
 	defer func() {
 		if err := recover(); err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		}
 	}()
 	client := &http.Client{}
@@ -162,7 +163,7 @@ func downloadFromServer(ip string, port int, key string, filePath string, start 
 func filePartsFromServer(ip string, port int, key string, filePath string) []interface{} {
 	defer func() {
 		if err := recover(); err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		}
 	}()
 	client := &http.Client{}
@@ -180,7 +181,7 @@ func filePartsFromServer(ip string, port int, key string, filePath string) []int
 func filesFromServer(ip string, port int, key string, filePath string, lastIndexed int64) []interface{} {
 	defer func() {
 		if err := recover(); err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		}
 	}()
 	client := &http.Client{}
@@ -198,7 +199,7 @@ func filesFromServer(ip string, port int, key string, filePath string, lastIndex
 func dirsFromServer(ip string, port int, key string, lastIndexed int64) []interface{} {
 	defer func() {
 		if err := recover(); err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		}
 	}()
 	client := &http.Client{}
