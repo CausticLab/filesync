@@ -26,7 +26,7 @@ go run gsync.go gsync/server.json
 go run gsync.go gsync/client.json
 ```
 
-Alternatively, set environment variables (examples in [/.env](/.env)):
+Alternatively, set environment variables (examples in [/.env-sample](/.env-sample)):
 
 ```sh
 # Server
@@ -50,6 +50,38 @@ Build Docker image:
 make dev-image
 make image
 ```
+
+## Options
+
+Configuration can be defined by JSON or ENV variables. Priority (from high to low) is JSON config file, ENV variables, then defaults. See the `Init()` method in [vars.go](/vars/vars.go) for details.
+
+### JSON Configuration
+
+Sample:
+
+```
+{
+  "mode": "client",
+    "ip": "127.0.0.1",
+    "port": 6776,
+    "monitors": {
+        "home_elgs_desktop_a": "/home/elgs/Desktop/c",
+        "home_elgs_desktop_b": "/home/elgs/Desktop/d"
+    }
+}
+```
+
+- `mode`: "client" or "server"
+- `ip`: Address or hostname of server
+- `port`: Port for traffic
+- `monitors`: key-value pairs of directories to watch. The "key" of these gets treated as the unique directory to be synchronized, while the "value" is the file system location for this key.
+
+### ENVironment Variable Configuration
+
+- `FILESYNC_MODE`: "client" or "server"
+- `FILESYNC_PORT`
+- `FILESYNC_IP`
+- `FILESYNC_PATH`: A singular directory to watch. If multiple directories are required, use the JSON config. If not specified, defaults to `/share/`.
 
 ## Demo
 

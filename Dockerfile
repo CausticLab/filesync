@@ -8,6 +8,6 @@ RUN tar -zxvf /tmp/filesync -C /usr/local/bin \
   && mv /usr/local/bin/filesync-linux-amd64 /usr/local/bin/filesync \
   && chmod +x /usr/local/bin/filesync \
   && rm /tmp/filesync
-RUN mkdir /share
+  && mkdir /share
 
 ENTRYPOINT ["/usr/local/bin/filesync"]

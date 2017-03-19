@@ -6,7 +6,7 @@ services:
     tty: true
     stdin_open: true
     labels:
-      io.rancher.scheduler.affinity:host_label: rgon=primary
+      io.rancher.scheduler.affinity:host_label: filesync=server
     environment:
       FILESYNC_MODE: 'server'
       FILESYNC_PATH: '/share'
@@ -20,7 +20,7 @@ services:
       - fs-server:fs-server
     labels:
       io.rancher.scheduler.global: 'true'
-      io.rancher.scheduler.affinity:host_label_ne: rgon=primary
+      io.rancher.scheduler.affinity:host_label_ne: filesync=server
     environment:
       FILESYNC_MODE: 'client'
       FILESYNC_IP: 'fs-server'
@@ -35,7 +35,7 @@ services:
       - fs-server:fs-server
     labels:
       io.rancher.scheduler.global: 'true'
-      io.rancher.scheduler.affinity:host_label_ne: rgon=primary
+      io.rancher.scheduler.affinity:host_label_ne: filesync=server
     environment:
       FILESYNC_MODE: 'client'
       FILESYNC_IP: 'fs-server'
