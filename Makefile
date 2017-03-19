@@ -62,7 +62,7 @@ version:
 	@echo $(VERSION) $(GITSHA)
 
 ci-compile: build-dir
-	CGO_ENABLED=0 GOOS=$(PLATFORM) GOARCH=$(ARCH) go build -ldflags "-X main.Version=$(VERSION) -X main.GitSHA=$(GITSHA) -w -s" -a -o build/$(PROJECT)-$(PLATFORM)-$(ARCH)/$(PROJECT)
+	CGO_ENABLED=1 GOOS=$(PLATFORM) GOARCH=$(ARCH) go build -ldflags "-X main.Version=$(VERSION) -X main.GitSHA=$(GITSHA) -w -s" -a -o build/$(PROJECT)-$(PLATFORM)-$(ARCH)/$(PROJECT)
 
 build-dir:
 	@rm -rf build && mkdir build
