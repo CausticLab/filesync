@@ -97,4 +97,19 @@ The Docker-Compose.yml file contains `links: [fs-server:fs-server]` which enable
 
 ### Rancher Environment
 
-- todo
+Filesync can be used as a way to share files between hosts. Container deployment can be controlled by assigning labels and using the Rancher scheduling system.
+
+By labelling the primary host with `filesync=server`, these labels can be used to add a Filesync server and multiple clients:
+
+```yml
+# Server
+  labels:
+    io.rancher.scheduler.affinity:host_label: filesync=server
+
+# Client
+  labels:
+    io.rancher.scheduler.global: 'true'
+    io.rancher.scheduler.affinity:host_label_ne: filesync=server
+```
+
+The host labelled with `filesync=server` will receive a Filesync server container, and all other hosts (`io.rancher.scheduler.global: 'true'`) not labelled with this (`host_label_ne: filesync=server`) will receive a client container.

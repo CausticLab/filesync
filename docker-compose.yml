@@ -6,8 +6,6 @@ services:
     tty: true
     stdin_open: true
     labels:
-      io.rancher.container.create_agent: 'true'
-      io.rancher.container.agent.role: 'environment'
       io.rancher.scheduler.affinity:host_label: rgon=primary
     environment:
       FILESYNC_MODE: 'server'
@@ -22,8 +20,6 @@ services:
       - fs-server:fs-server
     labels:
       io.rancher.scheduler.global: 'true'
-      io.rancher.container.create_agent: 'true'
-      io.rancher.container.agent.role: 'environment'
       io.rancher.scheduler.affinity:host_label_ne: rgon=primary
     environment:
       FILESYNC_MODE: 'client'
@@ -39,8 +35,6 @@ services:
       - fs-server:fs-server
     labels:
       io.rancher.scheduler.global: 'true'
-      io.rancher.container.create_agent: 'true'
-      io.rancher.container.agent.role: 'environment'
       io.rancher.scheduler.affinity:host_label_ne: rgon=primary
     environment:
       FILESYNC_MODE: 'client'
