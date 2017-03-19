@@ -15,19 +15,9 @@ type ConfigVars struct{
   Port int
   Monitors map[string]interface{}
 }
+var config ConfigVars
 
-func Args() []string {
-  ret := []string{}
-  if len(os.Args) >= 1 {
-    for i := 1; i < len(os.Args); i++ {
-      ret = append(ret, os.Args[i])
-    }
-  }
-  return ret
-}
-
-func GetConfig() ConfigVars{
-  var config ConfigVars
+func Init() {
   var configFile string
 
   input := Args()
@@ -69,32 +59,27 @@ func GetConfig() ConfigVars{
     config.Port = 6776
   }
 
-  if(len(config.Monitors) == 0){
+  if (len(config.Monitors) == 1) && (config.Monitors["default"] == ""){
     log.Println("No paths to monitor - defaulting to /share")
 
     config.Monitors = make(map[string]interface{})
     config.Monitors["default"] = "/share"
-
-    /*
-    var err error
-
-    if _, err := os.Stat("/share"); os.IsNotExist(err) {
-      os.Mkdir("/share", os.ModePerm)
-    }
-
-    if err != nil {
-      log.Fatal("Could not create default /share directory")
-    } else {
-      log.Println("Created /share directory")
-    }
-    */
   }
+}
 
-
+func GetConfig() ConfigVars{
   return config
 }
 
-
+func Args() []string {
+  ret := []string{}
+  if len(os.Args) >= 1 {
+    for i := 1; i < len(os.Args); i++ {
+      ret = append(ret, os.Args[i])
+    }
+  }
+  return ret
+}
 
 
 

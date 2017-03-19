@@ -33,6 +33,9 @@ deps:
 	go get github.com/tools/godep
 	go get github.com/mattn/go-sqlite3
 	go get github.com/bitly/go-simplejson
+	go get github.com/howeyc/fsnotify
+	go get github.com/codegangsta/martini
+	go get github.com/codegangsta/martini-contrib/encoder
 	godep save
 
 release:

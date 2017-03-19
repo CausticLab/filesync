@@ -16,6 +16,7 @@ func main() {
 }
 
 func start(done chan bool) {
+	vars.Init();
 	vars := vars.GetConfig();
 	log.Printf("Fileshare Config:\n%+v\n", vars)
 
