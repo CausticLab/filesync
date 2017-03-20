@@ -1,7 +1,7 @@
 language: go
 go:
   - 1.7.x
-go_import_path: github.com/causticlab/filesync
+go_import_path: github.com/causticlab/filesync/config
 install:
   - make deps
 script:
