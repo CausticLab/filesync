@@ -39,6 +39,8 @@ deps:
 	go get github.com/codegangsta/martini-contrib/encoder
 	go get github.com/causticlab/filesync/config
 	go get github.com/causticlab/filesync/vars
+	go get github.com/causticlab/filesync/index
+	go get github.com/causticlab/filesync/api
 	godep save
 
 release:
