@@ -37,10 +37,7 @@ deps:
 	go get github.com/howeyc/fsnotify
 	go get github.com/codegangsta/martini
 	go get github.com/codegangsta/martini-contrib/encoder
-	go get github.com/causticlab/filesync/config
-	go get github.com/causticlab/filesync/vars
-	go get github.com/causticlab/filesync/index
-	go get github.com/causticlab/filesync/api
+	go get github.com/causticlab/filesync
 	godep save
 
 release:
