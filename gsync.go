@@ -1,8 +1,8 @@
 package main
 
 import (
-	"filesync/config"
-	vars "filesync/vars"
+	"github.com/causticlab/filesync/config"
+	vars "github.com/causticlab/filesync/vars"
 	"log"
 	"runtime"
 )

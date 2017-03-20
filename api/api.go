@@ -3,11 +3,11 @@ package api
 import (
 	"database/sql"
 	"fmt"
-	"log"
+	"github.com/causticlab/filesync/index"
 	"github.com/codegangsta/martini"
 	"github.com/codegangsta/martini-contrib/encoder"
-	"filesync/index"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strconv"

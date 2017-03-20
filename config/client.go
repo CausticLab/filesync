@@ -3,13 +3,13 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	simplejson "github.com/bitly/go-simplejson"
-	"filesync/index"
-	vars "filesync/vars"
+	"github.com/causticlab/filesync/index"
+	vars "github.com/causticlab/filesync/vars"
 	"hash/crc32"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -19,12 +19,12 @@ import (
 var monitorFilePart bool = false
 
 func StartClient(done chan bool) {
-	vars := vars.GetConfig();
+	vars := vars.GetConfig()
 	log.Println("Starting Filesync client")
 	for k, v := range vars.Monitors {
 		monitored, _ := v.(string)
 
-		if(!index.Exists(monitored)){
+		if !index.Exists(monitored) {
 			log.Println("Path does not exist: ", monitored)
 			continue
 		}

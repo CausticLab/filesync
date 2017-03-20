@@ -1,18 +1,18 @@
 package config
 
 import (
-	"os"
-	"log"
 	"database/sql"
-	"filesync/api"
-	"filesync/index"
-	vars "filesync/vars"
+	"github.com/causticlab/filesync/api"
+	"github.com/causticlab/filesync/index"
+	vars "github.com/causticlab/filesync/vars"
 	"github.com/howeyc/fsnotify"
 	_ "github.com/mattn/go-sqlite3"
+	"log"
+	"os"
 )
 
 func StartServer() {
-	vars := vars.GetConfig();
+	vars := vars.GetConfig()
 
 	for _, v := range vars.Monitors {
 		watcher, _ := fsnotify.NewWatcher()
@@ -21,7 +21,7 @@ func StartServer() {
 		targetPath := index.SlashSuffix(monitored)
 		dbPath := targetPath + ".sync/index.db"
 
-		if(!index.Exists(monitored)){
+		if !index.Exists(monitored) {
 			log.Println("Path does not exist, creating: ", monitored)
 
 			if os.MkdirAll(monitored, os.ModePerm) != nil {
@@ -30,7 +30,7 @@ func StartServer() {
 			}
 		}
 
-		if(!index.Writable(targetPath)){
+		if !index.Writable(targetPath) {
 			log.Fatal("Path is not writeable: ", targetPath)
 		}
 
