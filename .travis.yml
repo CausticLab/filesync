@@ -1,0 +1,18 @@
+language: go
+go:
+  - 1.7.x
+install:
+  - make deps
+script:
+  - make test
+  - make travis-ci-dist
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: tE6/Ie7Y53jL7nXiCv24JCJNhrQSDuYgc5VzpDcLwqXALQaUAjDwuQp/ooV60wUIpeqHZZoUnWUtTSVW4KnM71pQKszzmSAAGOzmfb6ipeCn+wHJMrkxkfH+XQKRGdtJzrTp5YF6FBSZ1Rk8zSAKQ24iGLw7fpB3Unmuvzh5G0gAxINLGy7/IsCsdb4ZvpTEXv5yH+AN/xoyKXx6bXK5k2liznRENXsyyEi9tjYHa4VWP0fCjc0v2b8QhwZNbP17sqYoDxFuhTPSW46I6f5Zz9uHfg8Iyj/0foAQjeOhD5GbLvN1UU1E4FhM/JdHITb7cx0UEwI85dac59+8z32NvdOZS0qlDjntE7Utbve0I2lh6R7mzCX25BWbytECddZoArEyKChYJq8IQsEx0nREMj3rWswI2fXrpOk2KjKc7oKnUHB3fHhtmX76Y0LuNME12HnnWUKyQW4GC3EK0IPfkOmOcoKGi75knUuUHuBe8RyJf6kPD3v92yLWKK+A8RwndB2+n/ISiYr/i81KAZXI2GR7df0siz3gzT+PYUTR9sPEbp/TbJz9ipyuvFa0ftSIAk7hgll5JjEN+0fnjd6CCKCtF34t5QcKBmmznZhBZfi8iUlfGpLbuYIgOguYZUbFhHXgI81ZLt26TQHPzs7TFXkbkIxFYdAT41hSANV4D/Y=
+  file_glob: true
+  file: dist/*
+  on:
+    tags: true
+    repo: CausticLab/filesync
