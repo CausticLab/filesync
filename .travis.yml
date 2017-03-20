@@ -1,6 +1,8 @@
 language: go
 go:
   - 1.7.x
+go_import_path: filesync/config
+go_import_path: filesync/vars
 install:
   - make deps
 script:
