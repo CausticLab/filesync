@@ -78,12 +78,9 @@ ci-dist: ci-compile dist-dir
 		(cd $(shell pwd)/dist && md5sum $$f.tar.gz > $$f.md5); \
 		echo $$f; \
 	done
-	@cp -r $(shell pwd)/dist/* $(CIRCLE_ARTIFACTS)
-	ls $(CIRCLE_ARTIFACTS)
 
 ci-release:
 	@previous_tag=$$(git describe --abbrev=0 --tags $(VERSION)^); \
 	comparison="$$previous_tag..HEAD"; \
 	if [ -z "$$previous_tag" ]; then comparison=""; fi; \
-	changelog=$$(git log $$comparison --oneline --no-merges --reverse); \
-	github-release $(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME) $(VERSION) master "**Changelog**<br/>$$changelog" 'dist/*'
+	changelog=$$(git log $$comparison --oneline --no-merges --reverse);
